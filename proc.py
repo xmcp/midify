@@ -15,9 +15,9 @@ data=data.T
 
 import midi
 trk=midi.Track()
-trk.append(midi.ProgramChangeEvent(tick=0, channel=0, data=[34]))
-ptr=midi.Pattern(tracks=[trk],resolution=500,format=0)
-rate=1500
+trk.append(midi.ProgramChangeEvent(tick=0, channel=0, data=[79]))
+ptr=midi.Pattern(tracks=[trk],resolution=460,format=0)
+rate=1400
 
 class Notes:
     _delta_time=int(rate/framerate*1000)
@@ -29,7 +29,7 @@ class Notes:
 
     @staticmethod
     def _fixvel(pitch,vel):
-        return vel#**.75 #if pitch>=64 else (pitch-20)/44*vel
+        return vel**.75 #if pitch>=64 else (pitch-20)/44*vel
 
     def newtick(self):
         self.curtime+=self._delta_time
@@ -37,7 +37,7 @@ class Notes:
     def insert(self,vel,pitch):
         vel=self._fixvel(pitch,vel)
         self.items.append([True,self.curtime,vel,pitch])
-        self.items.append([False,self.curtime+.9*self._delta_time,vel,pitch])
+        self.items.append([False,self.curtime+.95*self._delta_time,vel,pitch])
         self.maxsound=max(self.maxsound,vel)
 
     def _toevt(self,evt,basetime):
